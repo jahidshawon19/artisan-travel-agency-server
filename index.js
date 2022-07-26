@@ -19,7 +19,39 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
 async function run() {
     try {
       await client.connect();
-  
+      const database = client.db('artisan-trip')
+      const tourPackageCollection = database.collection('tourPacakge')
+
+      //POST API FOR ADDING TOUR PACKAGE
+      app.post('/tourPackage', async (req, res)=>{
+
+          const newTourPackage = req.body 
+          const result = await tourPackageCollection.insertOne(newTourPackage)
+          res.json(result)
+      })
+
+
+    //GET API FOR LOADING ALL TOUR PACKAGE
+
+      app.get('/tourPackages', async (req, res)=>{
+            const cursor = tourPackageCollection.find({})
+            const allTourPackages = await cursor.toArray();
+            res.send(allTourPackages)
+      })
+
+
+      //GET API FOR LOADING SINGLE TOUR PACKAGE
+
+      app.get('/tourPackages/:id', async (req, res) =>{
+
+        const id = req.params.id; 
+        const query = { _id: ObjectId(id)}
+        const signleTourPackage = await tourPackageCollection.findOne(query) 
+        res.json(signleTourPackage) 
+
+       })
+      
+      
 
     } finally {
         // await client.close();
