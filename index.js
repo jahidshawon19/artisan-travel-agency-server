@@ -21,6 +21,7 @@ async function run() {
       await client.connect();
       const database = client.db('artisan-trip')
       const tourPackageCollection = database.collection('tourPacakge')
+      const orderTourCollection = database.collection('orderTour')
 
       //POST API FOR ADDING TOUR PACKAGE
       app.post('/tourPackage', async (req, res)=>{
@@ -49,6 +50,14 @@ async function run() {
         const signleTourPackage = await tourPackageCollection.findOne(query) 
         res.json(signleTourPackage) 
 
+       })
+
+
+        //POST API FOR ADDING ORDER 
+       app.post('/orderTour', async (req, res)=>{
+        const newTourOrder = req.body 
+        const result = await orderTourCollection.insertOne(newTourOrder)
+        res.json(result)
        })
       
       
