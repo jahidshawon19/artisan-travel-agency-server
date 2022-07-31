@@ -52,6 +52,19 @@ async function run() {
 
        })
 
+       
+       // DELETE API FOR DELETE TOUR PACKAGE 
+       app.delete('/tourPackages/:id', async (req, res)=>{
+        const id = req.params.id;
+        const query = {_id:ObjectId(id)}
+        const result = await tourPackageCollection.deleteOne(query)
+        res.json(result)
+     })
+
+
+     // PUT API FOR UPDATE TOUR PACKAGE
+     
+
 
         //POST API FOR ADDING ORDER 
        app.post('/orderTour', async (req, res)=>{
@@ -59,7 +72,36 @@ async function run() {
         const result = await orderTourCollection.insertOne(newTourOrder)
         res.json(result)
        })
-      
+
+
+      //GET API FOR LOADING ALL ORDER
+
+      app.get('/orderTours', async (req, res)=>{
+        const cursor = orderTourCollection.find({})
+        const allOrders = await cursor.toArray();
+        res.send(allOrders)
+     })
+ 
+      //GET API FOR LOADING SINGLE ORDER DETAILS
+
+      app.get('/orderTours/:id', async (req, res) =>{
+
+        const id = req.params.id; 
+        const query = { _id: ObjectId(id)}
+        const signleOrder = await orderTourCollection.findOne(query) 
+        res.json(signleOrder) 
+
+       })
+
+
+       // DELETE API FOR DELETE ORDER
+       app.delete('/orderTours/:id', async (req, res)=>{
+        const id = req.params.id;
+        const query = {_id:ObjectId(id)}
+        const result = await orderTourCollection.deleteOne(query)
+        res.json(result)
+     })       
+
       
 
     } finally {
