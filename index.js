@@ -63,10 +63,31 @@ async function run() {
 
 
      // PUT API FOR UPDATE TOUR PACKAGE
+
+      app.put('/tourPackages/:id', async (req, res)=>{
+        const id = req.params.id;
+        const updatedPackage = req.body 
+        const filter = { _id: ObjectId(id)}
+        const options = {upsert:true}
+        const updateDoc = {
+          $set:{
+            packageName:updatedPackage.packageName,
+            packageDuration: updatedPackage.packageDuration,
+            price:updatedPackage.price,
+            photo:updatedPackage.photo,
+            details:updatedPackage.details
+          }
+        }
+
+        const result = await tourPackageCollection.updateOne(filter, updateDoc, options)
+        res.json(result)
+      })
+
+
      
 
 
-        //POST API FOR ADDING ORDER 
+      //POST API FOR ADDING ORDER 
        app.post('/orderTour', async (req, res)=>{
         const newTourOrder = req.body 
         const result = await orderTourCollection.insertOne(newTourOrder)
