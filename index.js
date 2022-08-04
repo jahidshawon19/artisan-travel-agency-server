@@ -123,6 +123,19 @@ async function run() {
         res.json(result)
      })       
 
+
+
+     // GET API FOR SPECIFIC USER'S ORDER 
+     app.get('/myorders', async (req, res)=>{
+        let query = {}
+        const email = req.query.email 
+        if(email){
+          query = {TouristEmail:email}
+        }
+        const cursor = orderTourCollection.find(query)
+        const orders = await cursor.toArray()
+        res.json(orders)
+     })
       
 
     } finally {
