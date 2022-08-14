@@ -148,7 +148,7 @@ async function run() {
 
 app.get('/', (req, res)=>{
 
-    res.send('Artisan Trip server running ...')
+    res.send('<h1>Artisan Trip server running ...</h1>')
 })  
 
 app.listen(port, ()=>{
